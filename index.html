@@ -13,17 +13,23 @@
   <body>
     <div class="container w-100 m-auto">
       <div class="row w-100 m-auto">
-        <div class="col-md-6 m-auto text-center">
+        <div class="col-md-6 text-center">
           <div class="input-group">
-            <input id="search-input" type="search" class="form-control" placeholder="Search Player"/>
+            <input id="search-input" type="search" class="form-control" placeholder="Search Player" />
             <button onclick="allPlayers()" id="search-button" type="button" class="btn btn-primary">Search</button>
           </div>
           <div id="player-container" class="player-container">
             
           </div>
         </div>
-        <div class="col m-auto text-center">
-          <h1>Right Side</h1>
+        <div class="col mt-5 text-center">
+          <div class="image-container" id="image-container">
+            <img class="w-25" id="male" src="./images/male.jpg" alt="male-avatar">
+            <img class="w-25" id="female" src="./images/female.jpg" alt="female-avatar">
+          </div>
+          <div class="details-container" id="details-container">
+
+          </div>
         </div>
       </div>
     </div>
