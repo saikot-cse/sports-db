@@ -1,10 +1,17 @@
 const allPlayers = () => {
-  document.getElementById('player-container').innerHTML = '';
+  document.getElementById("player-container").innerHTML = "";
   const searchPlayer = document.getElementById(`search-input`).value;
   const url = `https://www.thesportsdb.com/api/v1/json/2/searchplayers.php?p=${searchPlayer}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => showPlayerDetails(data.player));
+    .then((data) => {
+      if (data.player == null) {
+        document.getElementById("spinner").style.display = "block";
+      } else {
+        showPlayerDetails(data.player);
+        document.getElementById("spinner").style.display = "none";
+      }
+    });
 };
 
 const showPlayerDetails = (players) => {
@@ -19,10 +26,11 @@ const showPlayerDetails = (players) => {
   <h5>Country: ${player.strNationality}</h5>
   <p>${player.strDescriptionEN.slice(0, 150)}</p>
   <div class="remove-details-button">
-    <button class="btn btn-danger">Remove</button>
+    <button onclick="removePlayerDetails('${player.idPlayer}')" class="btn btn-danger">Remove</button>
     <button onclick="playerDetails('${player.idPlayer}')" class="btn btn-success">Details</button>
   </div>
 </div>`;
+    document.getElementById(`search-input`).value = "";
     playerCard.appendChild(div);
   });
 };
@@ -35,21 +43,27 @@ const playerDetails = (playerID) => {
 };
 
 const setPlayerDetails = (playerInfo) => {
-
-  if(playerInfo.strGender == 'Male'){
-    document.getElementById('male').style.display = 'block';
-    document.getElementById('female').style.display = 'none';
-  }
-  else if(playerInfo.strGender == 'Female'){
-    document.getElementById('female').style.display = 'block';
-    document.getElementById('male').style.display = 'none';
+  if (playerInfo.strGender == "Male") {
+    document.getElementById("male").style.display = "block";
+    document.getElementById("female").style.display = "none";
+  } else if (playerInfo.strGender == "Female") {
+    document.getElementById("female").style.display = "block";
+    document.getElementById("male").style.display = "none";
   }
   document.getElementById(`details-container`).innerHTML = `<div class="profile-picture">
     <img src="${playerInfo.strThumb}" alt="" class="w-50 rounded">
   </div>
   <h2>Name: ${playerInfo.strPlayer}</h2>
   <h5>Country: ${playerInfo.strNationality}</h5>
-  <p>${playerInfo.strDescriptionEN.slice(0,1500)}</p>
+  <p>${playerInfo.strDescriptionEN}</p>
 </div>
   `;
+};
+
+const removePlayerDetails = () => {
+  document.getElementById(`player-container`).innerHTML = "";
+  document.getElementById(`details-container`).innerHTML = "";
+  document.getElementById("male").style.display = "none";
+  document.getElementById("female").style.display = "none";
+  document.getElementById(`search-input`).value = "";
 };
